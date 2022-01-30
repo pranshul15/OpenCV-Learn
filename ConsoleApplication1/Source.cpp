@@ -229,10 +229,50 @@ void saveVideo() {
 	oVideoWriter.release();
 }
 
-void 
+void changeBrightnessImage(){
+	Mat image = imread("D://Photoes//DemoPic.jpg");
+
+	if (image.empty()) {
+		cout << "could not open file or image" << endl;
+		cin.get();
+		return;
+	}
+
+	// increase brightness by 50
+	Mat imageBrightnessHigh50;
+	image.convertTo(imageBrightnessHigh50, -1, 1, 50);
+
+	// increase brightness by 100
+	Mat imageBrightnessHigh100;
+	image.convertTo(imageBrightnessHigh100, -1, 1, 100);
+
+	// decrease brightness by 50
+	Mat imageBrightnessLow50;
+	image.convertTo(imageBrightnessLow50, -1, 1, -50);
+
+	// decrease brightness by 100
+	Mat imageBrightnessLow100;
+	image.convertTo(imageBrightnessLow100, -1, 1, -100);
+
+	// defining window names for above images
+	cv::String windowNameOriginalImage = "Original Image";
+	cv::String windowNameBrightnessHigh50 = "Brightness Increased by 50";
+	cv::String windowNameBrightnessHigh100 = "Brightness Increased by 100";
+	cv::String windowNameBrightnessLow50 = "Brightness Decreased by 50";
+	cv::String windowNameBrightnessLow100 = "Brightness Decreased by 100";
+
+	cv::imshow(windowNameOriginalImage, image);
+	cv::imshow(windowNameBrightnessHigh50, imageBrightnessHigh50);
+	cv::imshow(windowNameBrightnessHigh100, imageBrightnessHigh100);
+	cv::imshow(windowNameBrightnessLow50, imageBrightnessLow50);
+	cv::imshow(windowNameBrightnessLow100, imageBrightnessLow100);
+
+	cv::waitKey(0);
+	cv::destroyAllWindows();
+}
 
 int main(int argc, char** argv)
 {
-	saveVideo();
+	changeBrightnessImage();
 	return 0;
 }
