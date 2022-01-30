@@ -271,8 +271,61 @@ void changeBrightnessImage(){
 	cv::destroyAllWindows();
 }
 
+void changeBrightnessVideoo() {
+	cv::VideoCapture cap("D://Photoes//VID_20210207_190704.mp4");
+
+	if (cap.isOpened() == false) {
+		cout << "Cannot open the file" << endl;
+		cin.get();
+		return;
+	}
+
+	cv::String windowNameOriginalVideo = "Original Video";
+	cv::String windowNameBrightnessHigh50 = "Brightness increased 50";
+	cv::String windowNameBrightnessHigh100 = "Brightness increased 100";
+	cv::String windowNameBrightnessLow50 = "Brightness decreased 50";
+	cv::String windowNameBrightnessLow100 = "Brightness decreased 100";
+
+	cv::namedWindow(windowNameOriginalVideo, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameBrightnessHigh50, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameBrightnessHigh100, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameBrightnessLow50, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameBrightnessLow100, cv::WINDOW_NORMAL);
+
+	while (true)
+	{
+		cv::Mat frame;
+		bool bSuccess = cap.read(frame);
+
+		if (bSuccess == false) {
+			cout << "Found the end of the video" << endl;
+			break;
+		}
+
+		cv::Mat frameBrightnessHigh50;
+		frame.convertTo(frameBrightnessHigh50, -1, 1, 50);
+		cv::Mat frameBrightnessHigh100;
+		frame.convertTo(frameBrightnessHigh100, -1, 1, 100);
+		cv::Mat frameBrightnessLow50;
+		frame.convertTo(frameBrightnessLow50, -1, 1, -50);
+		cv::Mat frameBrightnessLow100;
+		frame.convertTo(frameBrightnessLow100, -1, 1, -100);
+
+		cv::imshow(windowNameOriginalVideo,frame);
+		cv::imshow(windowNameBrightnessHigh50, frameBrightnessHigh50);
+		cv::imshow(windowNameBrightnessHigh100, frameBrightnessHigh100);
+		cv::imshow(windowNameBrightnessLow50, frameBrightnessLow50);
+		cv::imshow(windowNameBrightnessLow100, frameBrightnessLow100);
+
+		if (cv::waitKey(0) == 27) {
+			cout << "Esc key is pressed by user. Stopping the video" << endl;
+			break;
+		}
+	}
+}
+
 int main(int argc, char** argv)
 {
-	changeBrightnessImage();
+	changeBrightnessVideoo();
 	return 0;
 }
