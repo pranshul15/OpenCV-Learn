@@ -370,8 +370,64 @@ void changeContrastImage() {
 	return;
 }
 
+void changeContrastVideoo() {
+	cv::VideoCapture cap("D://Photoes//VID_20210207_190704.mp4");
+
+	if (cap.isOpened() == false) {
+		cout << "cannot open the file" << endl;
+		cin.get();
+		return;
+	}
+
+	cv::String windowNameOriginalImage = "Original Image";
+	cv::String windowNameContrastHigh2 = "Contrast Increased by 2";
+	cv::String windowNameContrastHigh4 = "Contrast Increased by 4";
+	cv::String windowNameContrastLow2 = "Contrast Decreasd by 2";
+	cv::String windowNameContrastLow4 = "Contrast Decreased by 4";
+
+	cv::namedWindow(windowNameOriginalImage, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameContrastHigh2, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameContrastHigh4, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameContrastLow2, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameContrastLow4, cv::WINDOW_NORMAL);
+
+	while (true)
+	{
+		cv::Mat frame;
+		bool bSuccess = cap.read(frame);
+
+		if (bSuccess == false) {
+			cout << "Found the end of the video" << endl;
+			break;
+		}
+
+		cv::Mat frameContrastHigh2;
+		frame.convertTo(frameContrastHigh2, -1, 2, 0);
+
+		cv::Mat frameContrastHigh4;
+		frame.convertTo(frameContrastHigh4, -1, 4, 0);
+
+		cv::Mat frameContrastLow2;
+		frame.convertTo(frameContrastLow2, -1, 0.5, 0);
+
+		cv::Mat frameContrastLow4;
+		frame.convertTo(frameContrastLow4, -1, 0.25, 0);
+
+		cv::imshow(windowNameOriginalImage, frame);
+		cv::imshow(windowNameContrastHigh2, frameContrastHigh2);
+		cv::imshow(windowNameContrastHigh4, frameContrastHigh4);
+		cv::imshow(windowNameContrastLow2, frameContrastLow2);
+		cv::imshow(windowNameContrastLow4, frameContrastLow4);
+
+		if (cv::waitKey(0) == 27) {
+			cout << "Esc key is pressed by user, stopping the video" << endl;
+			break;
+		}
+	}
+}
+
 int main(int argc, char** argv)
 {
-	changeContrastImage();
+	changeContrastVideoo();
 	return 0;
 }
