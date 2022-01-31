@@ -324,8 +324,54 @@ void changeBrightnessVideoo() {
 	}
 }
 
+void changeContrastImage() {
+	cv::Mat image = cv::imread("D://Photoes//IMG_20210116_190831.jpg");
+
+	if (image.empty()) {
+		cout << "Could not open the file" << endl;
+		cin.get();
+		return;
+	}
+
+	cv::Mat imageContrastHigh2;
+	image.convertTo(imageContrastHigh2, -1, 2, 0);
+
+	cv::Mat imageContrastHigh4;
+	image.convertTo(imageContrastHigh4, -1, 4, 0);
+
+	cv::Mat imageContrastLow_5;
+	image.convertTo(imageContrastLow_5, -1, 0.5, 0);
+
+	cv::Mat imageContrastLow_25;
+	image.convertTo(imageContrastLow_25, -1, 0.25, 0);
+
+	cv::String windowNameOriginalImage = "Original Image";
+	cv::String windowNameImageContrastHigh2 = "Contrast increased by 2";
+	cv::String windowNameImageContrastHigh4 = "Contrast increased by 4";
+	cv::String windowNameImageContrastLow2 = "Contrast decreased by 2";
+	cv::String windowNameImageContrastLow4 = "Contrast decreased by 4";	
+
+	cv::namedWindow(windowNameOriginalImage, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameImageContrastHigh2, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameImageContrastHigh4, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameImageContrastLow2, cv::WINDOW_NORMAL);
+	cv::namedWindow(windowNameImageContrastLow4, cv::WINDOW_NORMAL);
+
+	cv::imshow(windowNameOriginalImage, image);
+	cv::imshow(windowNameImageContrastHigh2, imageContrastHigh2);
+	cv::imshow(windowNameImageContrastHigh4, imageContrastHigh4);
+	cv::imshow(windowNameImageContrastLow2, imageContrastLow_5);
+	cv::imshow(windowNameImageContrastLow4, imageContrastLow_25);
+
+	cv::waitKey(0);
+
+	cv::destroyAllWindows();
+
+	return;
+}
+
 int main(int argc, char** argv)
 {
-	changeBrightnessVideoo();
+	changeContrastImage();
 	return 0;
 }
